@@ -1,8 +1,8 @@
 import email
 import smtplib
 import imaplib
-from email.MIMEText import MIMEText
-from email.MIMEMultipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 if __name__ == '__main__':
 	class EmailService:
@@ -16,7 +16,7 @@ if __name__ == '__main__':
 			self.MESSAGE = 'Message'
 			self.HEADER = None
 
-		def send_message(self):
+		def message_send(self):
 			msg = MIMEMultipart()
 			msg['From'] = self.LOGIN
 			msg['To'] = ', '.join(self.RECIPIENTS)
@@ -35,7 +35,7 @@ if __name__ == '__main__':
 			ms.sendmail(self.LOGIN, ms, msg.as_string())
 			ms.quit()
 
-		def recieve_message(self):
+		def message_recieve(self):
 			mail = imaplib.IMAP4_SSL(self.GMAIL_IMAP)
 			mail.login(self.LOGIN, self.PASSWORD)
 			mail.list()
@@ -48,3 +48,4 @@ if __name__ == '__main__':
 			raw_email = data[0][1]
 			email_message = email.message_from_string(raw_email)
 			mail.logout()
+			return email_message
